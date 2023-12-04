@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="PetShop API" annotations="JDK" parallel="classes" thread-count="4">
+    <test name="PetShop API Tests: Smoke">
+        <classes>
+            <class name="com.simbirsoft.tests.UseCasesTest"/>
+            <class name="com.simbirsoft.tests.UserTest">
+                <methods>
+                    <include name="createUserTest"/>
+                    <include name="deleteUserTest"/>
+                </methods>
+            </class>
+            <class name="com.simbirsoft.tests.PetTest">
+                <methods>
+                    <include name="createPetTest"/>
+                    <include name="deletePetTest"/>
+                </methods>
+            </class>
+            <class name="com.simbirsoft.tests.StoreTest">
+                <methods>
+                    <include name="createOrderTest"/>
+                    <include name="deleteOrderTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PetShop API Tests: Regression">
+        <classes>
+            <class name="com.simbirsoft.tests.UserTest">
+                <methods>
+                    <include name="getUserByInvalidUsernameTest"/>
+                </methods>
+            </class>
+            <class name="com.simbirsoft.tests.PetTest">
+                <methods>
+                    <include name="getPetByInvalidStatusTest"/>
+                    <include name="getPetByInvalidIdTest"/>
+                    <include name="updatePetWithInvalidStatusTest"/>
+                </methods>
+            </class>
+            <class name="com.simbirsoft.tests.StoreTest">
+                <methods>
+                    <include name="getOrderByInvalidIdTest"/>
+                    <include name="deleteOrderByInvalidIdTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

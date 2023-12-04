@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.10.0'
+    id "io.qameta.allure-report" version "2.10.0"
+}
+
+group = 'com.simbirsoft'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.testng:testng:7.8.0'
+    testImplementation 'io.rest-assured:rest-assured:5.3.2'
+    implementation 'io.qameta.allure:allure-testng:2.24.0'
+    implementation 'io.qameta.allure:allure-rest-assured:2.24.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    implementation 'io.rest-assured:json-schema-validator:5.3.2'
+
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
+
+reporting {
+    baseDir = "$projectDir/app"
+}
+
+allure {
+    version = '2.24.0'
+    report {
+        reportDir.set(project.reporting.baseDirectory.dir("default-reports"))
+    }
+}
+
+tasks.withType(Test).configureEach {
+    systemProperty("file.encoding", "UTF-8")
+}
+
+tasks.withType(JavaCompile) {
+    options.release = 11
+}
+
+tasks.register('testAndReport') {
+    dependsOn 'test'
+    dependsOn 'allureReport'
+}
+
+test {
+    useTestNG() {
+        dependsOn cleanTest
+        useDefaultListeners = true
+        suites "src/test/resources/suites/testng.xml"
+        ignoreFailures = true
+    }
+}
